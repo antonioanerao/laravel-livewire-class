@@ -27,7 +27,7 @@ class Comments extends Component
          * Validate if the comment is empty
          */
         $this->validate([
-            'newComment'=>'required',
+            'newComment'=>'required|max:10',
             'title'=>'required'
         ]);
 
@@ -46,6 +46,18 @@ class Comments extends Component
          * Cleans the last new comment
          */
         $this->newComment = "";
+    }
+
+    /*
+     * Validates in real time. If I fill some field and then clear then up the validates is going to
+     *  send the error to the view
+     */
+
+    public function updated($field) {
+        $this->validateOnly($field, [
+            'newComment'=>'required|max:10',
+            'title'=>'required'
+        ]);
     }
 
     public function render()
