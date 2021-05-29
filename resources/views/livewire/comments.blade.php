@@ -1,9 +1,10 @@
 <div>
+    <form wire:submit.prevent="addComment" name="addComment">
     <label>New Comment</label>
-    <textarea  name="comment" class="form-control" wire:model="newComment"></textarea>
+    <textarea required name="comment" class="form-control" wire:model.lazy="newComment"></textarea>
     <hr>
-    <button type="button" class="btn btn-primary" name="store" wire:click="addComment">Add Comment</button>
-
+    <button type="submit" name="addComment" class="btn btn-primary" >Add Comment</button>
+    </form>
     <hr>
 
     <h3>Comments</h3>

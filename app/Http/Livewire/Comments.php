@@ -17,11 +17,14 @@ class Comments extends Component
     public $newComment;
 
     public function addComment() {
-        array_unshift($this->comments, [
-            'body' => $this->newComment,
-            'created_at' => Carbon::now()->diffForHumans(),
-            'creator' => 'noone',
-        ]);
+        if($this->newComment != '') {
+            array_unshift($this->comments, [
+                'body' => $this->newComment,
+                'created_at' => Carbon::now()->diffForHumans(),
+                'creator' => 'noone',
+            ]);
+        }
+
         $this->newComment = "";
     }
 
