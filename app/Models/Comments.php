@@ -10,7 +10,7 @@ class Comments extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body','user_id'
+        'body','user_id', 'title'
     ];
 
     public function user() {

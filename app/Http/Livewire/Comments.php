@@ -21,12 +21,22 @@ class Comments extends Component
      * Store new comments into database
      */
     public $newComment;
+    public $title;
     public function addComment() {
-        if($this->newComment == '') {
-            return;
-        }
+        /*
+         * Validate if the comment is empty
+         */
+        $this->validate([
+            'newComment'=>'required',
+            'title'=>'required'
+        ]);
+
+        /*
+         * store the new comment
+         */
         $createComment = \App\Models\Comments::create([
             'body' => $this->newComment,
+            'title'=>$this->title,
             'user_id' => 1 /* hard coded user id */
         ]);
 
