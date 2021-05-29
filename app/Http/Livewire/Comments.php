@@ -7,24 +7,34 @@ use Livewire\Component;
 
 class Comments extends Component
 {
-    public $comments = [
-        [
-            'body'=>'dsdsdsds',
-            'created_at' => '24/10/1991',
-        ]
-    ];
 
+    /*
+     * Loads all comments from database
+     */
+    public $comments;
+    public function mount() {
+        $initialComments = \App\Models\Comments::latest()->get();
+        $this->comments = $initialComments;
+    }
+
+    /*
+     * Store new comments into database
+     */
     public $newComment;
-
     public function addComment() {
-        if($this->newComment != '') {
-            array_unshift($this->comments, [
-                'body' => $this->newComment,
-                'created_at' => Carbon::now()->diffForHumans(),
-                'creator' => 'noone',
-            ]);
+        if($this->newComment == '') {
+            return;
         }
+        $createComment = \App\Models\Comments::create([
+            'body' => $this->newComment,
+            'user_id' => 1 /* hard coded user id */
+        ]);
 
+        $this->comments->prepend($createComment);
+
+        /*
+         * Cleans the last new comment
+         */
         $this->newComment = "";
     }
 

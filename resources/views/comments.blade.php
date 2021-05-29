@@ -25,7 +25,7 @@
 </head>
 <body class="antialiased">
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    @livewire('comments')
+    <livewire:comments />
 </div>
 @livewireScripts
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" rel="script">
