@@ -3,27 +3,36 @@
 namespace App\Http\Livewire;
 
 use Carbon\Carbon;
+use Intervention\Image\ImageManagerStatic;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Comments extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
-    /*
-     * Loads all comments from database
-     */
-    //public $comments;
-    public function mount() {
-//        $initialComments = \App\Models\Comments::latest()->paginage(2);
-//        $this->comments = $initialComments;
-    }
-
-    /*
-     * Store new comments into database
-     */
     public $newComment;
     public $newTitle;
+    public $image;
+    protected $listeners = ['fileUpload'=>'handleFileUpload'];
+
+    public function handleFileUpload($imageData) {
+        $this->image = $imageData;
+    }
+
+    public function storeImage() {
+        if(!$this->image) {
+            return null;
+        }
+
+        $img = ImageManagerStatic::make($this->image)->encode('jpg');
+        $name = \Str::random(10).'.jpg';
+        \Storage::disk('public')->put($name, $img);
+        return $name;
+    }
+
     public function addComment() {
         /*
          * Validate if the comment is empty
@@ -34,15 +43,19 @@ class Comments extends Component
         ]);
 
         /*
+         * Handle the image upload
+         */
+        $image = $this->storeImage();
+
+        /*
          * store the new comment
          */
-        $createComment = \App\Models\Comments::create([
+        \App\Models\Comments::create([
             'body' => $this->newComment,
             'title'=>$this->newTitle,
+            'image' => $image,
             'user_id' => 1 /* hard coded user id */
         ]);
-
-       // $this->comments->prepend($createComment);
         session()->flash('message', "Comment added successfully");
 
         /*
@@ -73,7 +86,6 @@ class Comments extends Component
          * This will refresh the comments and return a list of comments
          * without the removed comment
          */
-        //$this->comments = $this->comments->except($commentId);
         session()->flash('message', "Comment deleted successfully");
     }
 

@@ -1,6 +1,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
+            <img src="{{ $image }}" width="30%">
+
+            <section>
+                <input type="file" id="image" wire:change="$emit('fileChoosen')">
+            </section>
+
+            <hr>
             <form wire:submit.prevent="addComment" name="addComment">
 
                 <div>
@@ -42,7 +50,8 @@
                         </div>
                         <label>Author:</label> {{ $comment->user->name }} <br>
                         <label>Date:</label> {{ $comment->created_at->diffForHumans() }} <br>
-                        <label>Comment:</label> {{ $comment->body }}
+                        <label>Comment:</label> {{ $comment->body }} <br>
+                        <img src="storage/{{ $comment->image }}" width="30%">
                     </div>
                 </div> <br>
             @endforeach
@@ -51,3 +60,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.livewire.on('fileChoosen', () => {
+        let inputField = document.getElementById('image')
+        let file = inputField.files[0]
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+            window.livewire.emit('fileUpload', reader.result)
+        }
+
+        reader.readAsDataURL(file)
+    });
+</script>

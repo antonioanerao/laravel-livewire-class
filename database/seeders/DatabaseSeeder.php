@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     {
          \App\Models\User::factory(10)->create();
 
-         for($i=0;$i<=100;$i++) {
-             \App\Models\Comments::create([
-                 'title' => Str::random(10),
-                 'body' => Str::random(50),
-                 'user_id' => 1,
-             ]);
-         }
+//         for($i=0;$i<=100;$i++) {
+//             \App\Models\Comments::create([
+//                 'title' => Str::random(10),
+//                 'body' => Str::random(50),
+//                 'user_id' => 1,
+//             ]);
+//         }
     }
 }
