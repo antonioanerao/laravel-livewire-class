@@ -4,17 +4,19 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Comments extends Component
 {
+    use WithPagination;
 
     /*
      * Loads all comments from database
      */
-    public $comments;
+    //public $comments;
     public function mount() {
-        $initialComments = \App\Models\Comments::latest()->paginage(2);
-        $this->comments = $initialComments;
+//        $initialComments = \App\Models\Comments::latest()->paginage(2);
+//        $this->comments = $initialComments;
     }
 
     /*
@@ -40,7 +42,7 @@ class Comments extends Component
             'user_id' => 1 /* hard coded user id */
         ]);
 
-        $this->comments->prepend($createComment);
+       // $this->comments->prepend($createComment);
         session()->flash('message', "Comment added successfully");
 
         /*
@@ -71,12 +73,15 @@ class Comments extends Component
          * This will refresh the comments and return a list of comments
          * without the removed comment
          */
-        $this->comments = $this->comments->except($commentId);
+        //$this->comments = $this->comments->except($commentId);
         session()->flash('message', "Comment deleted successfully");
     }
 
     public function render()
     {
-        return view('livewire.comments');
+        return view('livewire.comments',
+        [
+            'comments' => \App\Models\Comments::latest()->paginate(2)
+        ]);
     }
 }
