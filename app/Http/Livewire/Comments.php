@@ -13,7 +13,7 @@ class Comments extends Component
      */
     public $comments;
     public function mount() {
-        $initialComments = \App\Models\Comments::latest()->get();
+        $initialComments = \App\Models\Comments::latest()->paginage(2);
         $this->comments = $initialComments;
     }
 
@@ -41,6 +41,7 @@ class Comments extends Component
         ]);
 
         $this->comments->prepend($createComment);
+        session()->flash('message', "Comment added successfully");
 
         /*
          * Cleans the last new comment and newTitle
@@ -71,6 +72,7 @@ class Comments extends Component
          * without the removed comment
          */
         $this->comments = $this->comments->except($commentId);
+        session()->flash('message', "Comment deleted successfully");
     }
 
     public function render()

@@ -2,6 +2,13 @@
     <div class="row">
         <div class="col-md-12">
             <form wire:submit.prevent="addComment" name="addComment">
+
+                <div>
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">{{ session('message') }}</div>
+                    @endif
+                </div>
+
                 <label>Title</label>
                 <input name="title" class="form-control" wire:model.lazy="newTitle">
                 @error('newTitle')
