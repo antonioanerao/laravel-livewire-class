@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <form wire:submit.prevent="addComment" name="addComment">
                 <label>Title</label>
-                <input name="title" class="form-control" wire:model.lazy="title">
-                @error('title')
+                <input name="title" class="form-control" wire:model.lazy="newTitle">
+                @error('newTitle')
                 <span class="text-danger text-xl-center">
                     {{ $message }}
                 </span>
@@ -27,9 +27,14 @@
             @foreach($comments as $comment)
                 <div class="card">
                     <div class="card-body">
+                        <div class="card-title"><h3><small>Title: {{ $comment->title }}</small>
+                                <i class="float-right" wire:click="remove({{$comment->id}})">
+                                    <button class="btn btn-sm btn-danger">X</button>
+                                </i>
+                            </h3>
+                        </div>
                         <label>Author:</label> {{ $comment->user->name }} <br>
                         <label>Date:</label> {{ $comment->created_at->diffForHumans() }} <br>
-                        <label>Title:</label> {{ $comment->title }} <br>
                         <label>Comment:</label> {{ $comment->body }}
                     </div>
                 </div> <br>

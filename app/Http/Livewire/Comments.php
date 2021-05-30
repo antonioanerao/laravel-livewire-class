@@ -21,14 +21,14 @@ class Comments extends Component
      * Store new comments into database
      */
     public $newComment;
-    public $title;
+    public $newTitle;
     public function addComment() {
         /*
          * Validate if the comment is empty
          */
         $this->validate([
             'newComment'=>'required|max:10',
-            'title'=>'required'
+            'newTitle'=>'required'
         ]);
 
         /*
@@ -36,16 +36,17 @@ class Comments extends Component
          */
         $createComment = \App\Models\Comments::create([
             'body' => $this->newComment,
-            'title'=>$this->title,
+            'title'=>$this->newTitle,
             'user_id' => 1 /* hard coded user id */
         ]);
 
         $this->comments->prepend($createComment);
 
         /*
-         * Cleans the last new comment
+         * Cleans the last new comment and newTitle
          */
         $this->newComment = "";
+        $this->newTitle = "";
     }
 
     /*
@@ -56,8 +57,20 @@ class Comments extends Component
     public function updated($field) {
         $this->validateOnly($field, [
             'newComment'=>'required|max:10',
-            'title'=>'required'
+            'newTitle'=>'required'
         ]);
+    }
+
+    /*
+     * Remove the comment by ID
+     */
+    public function remove($commentId) {
+        \App\Models\Comments::destroy($commentId);
+        /*
+         * This will refresh the comments and return a list of comments
+         * without the removed comment
+         */
+        $this->comments = $this->comments->except($commentId);
     }
 
     public function render()
