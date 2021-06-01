@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/comments', function() {
     return view('comments');
 });
+
+Route::get('/posts', function() {
+    return view('posts');
+});
