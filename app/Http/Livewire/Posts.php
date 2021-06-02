@@ -33,6 +33,13 @@ class Posts extends Component
         return true;
     }
 
+    public function updated($field) {
+        $this->validateOnly($field, [
+            'title'=>'required|min:5',
+            'body'=>'required|min:5'
+        ]);
+    }
+
     public function removePost($postID) {
         \App\Models\Posts::destroy($postID);
         /*

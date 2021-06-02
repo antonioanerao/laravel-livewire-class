@@ -27,7 +27,19 @@
 </head>
 <body class="antialiased">
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    <livewire:comments />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <livewire:tickets />
+
+            </div>
+
+            <div class="col-md-6">
+                <livewire:comments />
+
+            </div>
+        </div>
+    </div>
 </div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" rel="script">
 </body>
